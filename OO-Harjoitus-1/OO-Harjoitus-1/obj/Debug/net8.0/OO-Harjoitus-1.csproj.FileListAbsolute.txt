@@ -1,0 +1,14 @@
+C:\Users\nasim\source\repos\OO-Harjoitus-1\OO-Harjoitus-1\bin\Debug\net8.0\OO-Harjoitus-1.exe
+C:\Users\nasim\source\repos\OO-Harjoitus-1\OO-Harjoitus-1\bin\Debug\net8.0\OO-Harjoitus-1.deps.json
+C:\Users\nasim\source\repos\OO-Harjoitus-1\OO-Harjoitus-1\bin\Debug\net8.0\OO-Harjoitus-1.runtimeconfig.json
+C:\Users\nasim\source\repos\OO-Harjoitus-1\OO-Harjoitus-1\bin\Debug\net8.0\OO-Harjoitus-1.dll
+C:\Users\nasim\source\repos\OO-Harjoitus-1\OO-Harjoitus-1\bin\Debug\net8.0\OO-Harjoitus-1.pdb
+C:\Users\nasim\source\repos\OO-Harjoitus-1\OO-Harjoitus-1\obj\Debug\net8.0\OO-Harjoitus-1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nasim\source\repos\OO-Harjoitus-1\OO-Harjoitus-1\obj\Debug\net8.0\OO-Harjoitus-1.AssemblyInfoInputs.cache
+C:\Users\nasim\source\repos\OO-Harjoitus-1\OO-Harjoitus-1\obj\Debug\net8.0\OO-Harjoitus-1.AssemblyInfo.cs
+C:\Users\nasim\source\repos\OO-Harjoitus-1\OO-Harjoitus-1\obj\Debug\net8.0\OO-Harjoitus-1.csproj.CoreCompileInputs.cache
+C:\Users\nasim\source\repos\OO-Harjoitus-1\OO-Harjoitus-1\obj\Debug\net8.0\OO-Harjoitus-1.dll
+C:\Users\nasim\source\repos\OO-Harjoitus-1\OO-Harjoitus-1\obj\Debug\net8.0\refint\OO-Harjoitus-1.dll
+C:\Users\nasim\source\repos\OO-Harjoitus-1\OO-Harjoitus-1\obj\Debug\net8.0\OO-Harjoitus-1.pdb
+C:\Users\nasim\source\repos\OO-Harjoitus-1\OO-Harjoitus-1\obj\Debug\net8.0\OO-Harjoitus-1.genruntimeconfig.cache
+C:\Users\nasim\source\repos\OO-Harjoitus-1\OO-Harjoitus-1\obj\Debug\net8.0\ref\OO-Harjoitus-1.dll

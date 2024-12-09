@@ -1,0 +1,22 @@
+[
+  {
+    "InvoiceNumber": 1,
+    "BillingCompany": "Nasun Yritys",
+    "BillingAddress": "Nasutie 123, 12233, Espoo",
+    "Date": "2024-12-02T00:00:00",
+    "DueDate": "2024-12-22T00:00:00",
+    "CustomerName": "Mikko",
+    "CustomerAddress": "Mikkolantie 22, 123141, Espoo",
+    "AdditionalInfo": "None"
+  },
+  {
+    "InvoiceNumber": 1,
+    "BillingCompany": "Nasun Yritys",
+    "BillingAddress": "Nasutie 12",
+    "Date": "2024-02-15T00:00:00",
+    "DueDate": "2024-02-12T00:00:00",
+    "CustomerName": "Mikko",
+    "CustomerAddress": "Mikkolantie 12",
+    "AdditionalInfo": "Ei"
+  }
+]
