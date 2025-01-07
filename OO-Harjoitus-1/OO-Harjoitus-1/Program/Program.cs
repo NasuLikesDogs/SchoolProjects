@@ -1,5 +1,6 @@
 ﻿using System;
 using OO_Harjoitus_1.ProgramManager;
+using OO_Harjoitus_1.Repos;
 
 namespace OO_Harjoitus_1
 {
@@ -16,10 +17,7 @@ namespace OO_Harjoitus_1
 
             while (true)
             {
-
-                Console.ForegroundColor = ConsoleColor.Magenta;
-                Console.WriteLine("\n--- Rakennus OY Billing System ---");
-                Console.ForegroundColor = ConsoleColor.White;
+                ColorRepo.ChangeTextColor("\n--- Rakennus OY Billing System ---", ConsoleColor.Magenta);
 
                 // Display the open invoices by default every time we loop back to the main screen
                 DisplayOpenInvoices(invoiceRepo);
@@ -66,16 +64,12 @@ namespace OO_Harjoitus_1
         // Open invoices (short format: invoice number, customer name)
         private static void DisplayOpenInvoices(InvoiceRepo invoiceRepo)
         {
-            Console.ForegroundColor = ConsoleColor.DarkCyan;
-            Console.WriteLine("\n--- Open Invoices ---");
-            Console.ForegroundColor = ConsoleColor.White;
+            ColorRepo.ChangeTextColor("\n--- Open Invoices ---", ConsoleColor.DarkCyan);
 
             var invoices = invoiceRepo.GetInvoices();
             if (invoices.Count == 0)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\nNo invoices found.\n");
-                Console.ForegroundColor = ConsoleColor.White;
+                ColorRepo.ChangeTextColor("\nNo invoices found.\n", ConsoleColor.Red);
             }
             else
             {

@@ -3,17 +3,35 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using OO_Harjoitus_1.Details;
+using OO_Harjoitus_1.Repos;
 
 namespace OO_Harjoitus_1.ProgramManager
 {
     public class InvoiceRepo
     {
-        private const string FilePath = "C:\\Users\\nasim\\Desktop\\Rakennus OY Billing\\billing.json";
+        private readonly string FilePath;
         private List<InvoiceEntity> invoices;
 
         public InvoiceRepo()
         {
+            string directoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Rakennus OY Billing");
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+            FilePath = Path.Combine(directoryPath, "billing.json");
             invoices = LoadInvoicesFromFile();
+
+            try
+            {
+                invoices = LoadInvoicesFromFile();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading invoices: {ex.Message}");
+                invoices = new List<InvoiceEntity>();
+            }
+
         }
 
         public List<InvoiceEntity> GetInvoices()
@@ -28,15 +46,11 @@ namespace OO_Harjoitus_1.ProgramManager
         {
             if (invoices.Count == 0)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\nNo invoices found.\n");
-                Console.ForegroundColor = ConsoleColor.White;
+                ColorRepo.ChangeTextColor("\nNo product data found.\n", ConsoleColor.Red);
                 return;
             }
 
-            Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine("\n--- Open Invoices ---");
-            Console.ForegroundColor = ConsoleColor.White;
+            ColorRepo.ChangeTextColor("\n--- Open Invoices ---", ConsoleColor.Magenta);
 
             foreach (var invoice in invoices)
             {
@@ -51,15 +65,11 @@ namespace OO_Harjoitus_1.ProgramManager
         {
             if (invoices.Count == 0)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\nNo invoices found.\n");
-                Console.ForegroundColor = ConsoleColor.White;
+                ColorRepo.ChangeTextColor("\nNo invoices found.\n", ConsoleColor.Red);
                 return;
             }
 
-            Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine("\n--- All Invoices ---");
-            Console.ForegroundColor = ConsoleColor.White;
+            ColorRepo.ChangeTextColor("\n--- All Invoices ---", ConsoleColor.Magenta);
 
             foreach (var invoice in invoices)
             {
@@ -73,11 +83,16 @@ namespace OO_Harjoitus_1.ProgramManager
         /// </summary>
         public void AddInvoice()
         {
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("\n--- Adding new invoice ---\n");
-            Console.ForegroundColor = ConsoleColor.White;
+            ColorRepo.ChangeTextColor("\n--- Adding new invoice ---\n", ConsoleColor.Blue);
+
             Console.Write("Enter Invoice Number: ");
             int invoiceNumber = int.Parse(Console.ReadLine());
+
+            Console.Write("Enter Contractor Name: ");
+            string contractor = Console.ReadLine();
+
+            Console.Write("Enter Contractor Address: ");
+            string contractorAddress = Console.ReadLine();
 
             Console.Write("Enter Customer Name: ");
             string customerName = Console.ReadLine();
@@ -85,37 +100,62 @@ namespace OO_Harjoitus_1.ProgramManager
             Console.Write("Enter Customer Address: ");
             string customerAddress = Console.ReadLine();
 
-            DateTime date = GetValidDate("Enter Date (yyyy-MM-dd): ");
-            DateTime dueDate = GetValidDate("Enter Due Date (yyyy-MM-dd): ");
+            // validoidaan päivämäärä
+            DateTime date = GetValidDate("Enter Invoice Start Date (yyyy-MM-dd): ");
+            DateTime dueDate = GetValidDate("Enter Invoice Due Date (yyyy-MM-dd): ");
 
             Console.Write("Enter Additional Info: ");
             string additionalInfo = Console.ReadLine();
 
-            var newInvoice = new InvoiceEntity(invoiceNumber, customerName, customerAddress, date, dueDate, additionalInfo);
+            var newInvoice = new InvoiceEntity(invoiceNumber, contractor, contractorAddress, customerName, customerAddress, date, dueDate, additionalInfo);
 
-            Console.WriteLine("\nAdd products to the invoice (type 'done' to finish):");
+            ColorRepo.ChangeTextColor("\nLISTING A NEW PRODUCT. Type 'done' to finish.\n", ConsoleColor.Green);
             while (true)
             {
                 Console.Write("Enter Product Name: ");
                 string productName = Console.ReadLine();
-                if (productName.ToLower() == "done") break;
+                if (productName.ToLower() == "done")
+                    break;
 
+                // Kysy muut tiedot vain, jos käyttäjä ei lopeta
                 Console.Write("Enter Quantity: ");
-                double quantity = double.Parse(Console.ReadLine());
+                if (!double.TryParse(Console.ReadLine(), out double quantity))
+                {
+                    Console.WriteLine("Invalid quantity. Please try again.");
+                    continue;
+                }
 
                 Console.Write("Enter Unit: ");
                 string unit = Console.ReadLine();
 
                 Console.Write("Enter Unit Price: ");
-                double unitPrice = double.Parse(Console.ReadLine());
+                if (!double.TryParse(Console.ReadLine(), out double unitPrice))
+                {
+                    Console.WriteLine("Invalid unit price. Please try again.");
+                    continue;
+                }
 
-                var newProduct = new ProductEntity(productName, quantity, unit, unitPrice);
+                Console.Write("Enter Time Used (hours, rounded up to the next full hour): ");
+                if (!int.TryParse(Console.ReadLine(), out int timeUsed))
+                {
+                    Console.WriteLine("Invalid time used. Please try again.");
+                    continue;
+                }
+
+                Console.Write("Enter Hourly Cost: ");
+                if (!double.TryParse(Console.ReadLine(), out double timeCost))
+                {
+                    Console.WriteLine("Invalid hourly cost. Please try again.");
+                    continue;
+                }
+
+                var newProduct = new ProductEntity(timeUsed, timeCost, productName, quantity, unit, unitPrice);
                 newInvoice.AddProduct(newProduct);
             }
 
             invoices.Add(newInvoice);
             SaveInvoicesToFile();
-            Console.WriteLine("Invoice added successfully!");
+            ColorRepo.ChangeTextColor("Invoice added successfully!\n", ConsoleColor.Green);
         }
 
         /// <summary>
@@ -125,9 +165,7 @@ namespace OO_Harjoitus_1.ProgramManager
         {
             if (invoices.Count == 0)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\nNo invoices to delete.");
-                Console.ForegroundColor = ConsoleColor.White;
+                ColorRepo.ChangeTextColor("\nNo invoices to delete.", ConsoleColor.Red);
                 return;
             }
 
@@ -136,9 +174,7 @@ namespace OO_Harjoitus_1.ProgramManager
 
             if (!isValid)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\nInvalid input. Please enter a valid number.");
-                Console.ForegroundColor = ConsoleColor.White;
+                ColorRepo.ChangeTextColor("\nInvalid input. Please enter a valid number.", ConsoleColor.Red);
                 return;
             }
 
@@ -147,22 +183,17 @@ namespace OO_Harjoitus_1.ProgramManager
             if (invoiceToDelete != null)
             {
                 invoices.Remove(invoiceToDelete);
-                SaveInvoicesToFile(); // Save the updated list to the file.
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"Invoice #{invoiceNumber} has been deleted successfully.");
-                Console.ForegroundColor = ConsoleColor.White;
+                SaveInvoicesToFile();
+                ColorRepo.ChangeTextColor($"Invoice #{invoiceNumber} has been deleted successfully.", ConsoleColor.Green);
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"Invoice #{invoiceNumber} not found.");
-                Console.ForegroundColor = ConsoleColor.White;
+                ColorRepo.ChangeTextColor($"Invoice #{invoiceNumber} not found.", ConsoleColor.Red);
             }
         }
 
         /// <summary>
         /// Loads a new invoice from .json.
-        /// C:\\Users\\nasim\\Desktop\\Rakennus OY Billing\\billing.json
         /// </summary>
         /// <returns></returns>
         private List<InvoiceEntity> LoadInvoicesFromFile()
@@ -177,7 +208,6 @@ namespace OO_Harjoitus_1.ProgramManager
 
         /// <summary>
         /// Saves invoice to .json. 
-        /// C:\\Users\\nasim\\Desktop\\Rakennus OY Billing\\billing.json
         /// </summary>
         private void SaveInvoicesToFile()
         {
@@ -212,3 +242,4 @@ namespace OO_Harjoitus_1.ProgramManager
         }
     }
 }
+

@@ -2,17 +2,24 @@
 {
     public class ProductEntity
     {
+        public int TimeUsed { get; set; }
+        public double TimeCost { get; set; }
         public string ProductName { get; set; }
-        public double Quantity { get; set; }
-        public string Unit { get; set; }
-        public double UnitPrice { get; set; }
+        public double ProductQuantity { get; set; }
+        public string ProductUnit { get; set; }
+        public double ProductUnitPrice { get; set; }
 
-        public ProductEntity(string productName, double quantity, string unit, double unitPrice)
+        // Oletuskonstruktori
+        public ProductEntity() { }
+
+        public ProductEntity(int timeUsed, double timeCost, string productName, double quantity, string unit, double unitPrice)
         {
+            TimeUsed = timeUsed;
+            TimeCost = timeCost;
             ProductName = productName;
-            Quantity = quantity;
-            Unit = unit;
-            UnitPrice = unitPrice;
+            ProductQuantity = quantity;
+            ProductUnit = unit;
+            ProductUnitPrice = unitPrice;
         }
     }
 }

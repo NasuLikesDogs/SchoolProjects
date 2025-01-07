@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using OO_Harjoitus_1.Details;
+using OO_Harjoitus_1.Repos;
 
 namespace OO_Harjoitus_1.ProgramManager
 {
@@ -35,16 +36,11 @@ namespace OO_Harjoitus_1.ProgramManager
 
             if (allProducts.Count == 0)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\nNo product data found.\n");
-                Console.ForegroundColor = ConsoleColor.White;
+                ColorRepo.ChangeTextColor("\nNo product data found.\n", ConsoleColor.Red);
                 return;
             }
 
-            Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine("\n--- All Product Details ---");
-            Console.ForegroundColor = ConsoleColor.White;
-
+            ColorRepo.ChangeTextColor("\n--- All Product Details ---", ConsoleColor.Magenta);
             foreach (var product in allProducts)
             {
                 Console.WriteLine($"Product: {product}");
@@ -64,15 +60,11 @@ namespace OO_Harjoitus_1.ProgramManager
 
             if (invoicesWithProduct.Count == 0)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"No invoices found with product {productName}.\n");
-                Console.ForegroundColor = ConsoleColor.White;
+                ColorRepo.ChangeTextColor($"No invoices found with product {productName}.\n", ConsoleColor.Red);
                 return;
             }
 
-            Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine($"\n--- Invoices with product {productName} ---");
-            Console.ForegroundColor = ConsoleColor.White;
+            ColorRepo.ChangeTextColor($"\n--- Invoices with product {productName} ---", ConsoleColor.Magenta);
 
             foreach (var invoice in invoicesWithProduct)
             {
